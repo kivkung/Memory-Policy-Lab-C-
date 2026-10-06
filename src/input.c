@@ -7,6 +7,42 @@
 #include <stdlib.h>
 #include <string.h>
 
+int save_references(const char *path, const ReferenceString *references,
+                    char *error, size_t error_size)
+{
+    FILE *file;
+    size_t i;
+    if (!path || !references || references->count == 0 ||
+        references->count > MAX_REFERENCES) {
+        snprintf(error, error_size, "There is no valid reference string to save.");
+        return 0;
+    }
+    for (i = 0; i < references->count; ++i) {
+        if (references->pages[i] < 0) {
+            snprintf(error, error_size, "Page IDs must be nonnegative.");
+            return 0;
+        }
+    }
+    file = fopen(path, "wb");
+    if (!file) {
+        snprintf(error, error_size, "Cannot save file: %s", strerror(errno));
+        return 0;
+    }
+    for (i = 0; i < references->count; ++i) {
+        if (fprintf(file, "%d%c", references->pages[i],
+                    i + 1 == references->count ? '\n' : ' ') < 0) {
+            snprintf(error, error_size, "Error while writing the reference file.");
+            fclose(file);
+            return 0;
+        }
+    }
+    if (fclose(file) != 0) {
+        snprintf(error, error_size, "Error while closing the reference file.");
+        return 0;
+    }
+    return 1;
+}
+
 int parse_integer(const char *text, int minimum, int maximum, int *value)
 {
     char *end;

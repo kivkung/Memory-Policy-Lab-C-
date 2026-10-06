@@ -8,5 +8,6 @@ void run_display(const ReferenceString *references, int frame_count,
                  Algorithm algorithm, int interactive);
 void compare_algorithms(const ReferenceString *references, int frame_count);
 void frame_sweep(const ReferenceString *references);
+void compare_traces(const ReferenceString *references, int frame_count, int interactive);
 
 #endif
