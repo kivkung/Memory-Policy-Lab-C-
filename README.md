@@ -9,7 +9,7 @@
 Windows ต้องมี GCC ใน PATH ตรวจด้วย `gcc --version` หรือดับเบิลคลิก `run.bat` ในโฟลเดอร์นี้เพื่อ compile แล้วรัน
 
 ```powershell
-cd "C:\Users\kivku\OneDrive\Documents\2T1\SC362001 Operating Systems\project\Page-Replacement-Simulator-C-"
+cd "C:\Users\-\Page-Replacement-Simulator-C-"
 .\build.bat
 .\build\memory_policy_lab.exe
 ```
