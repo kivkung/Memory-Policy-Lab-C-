@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="คู่มือภาษาไทยสำหรับทีม 3 คน: เข้าใจ OS, อ่านโค้ด Memory Policy Lab, แบ่งหน้าที่ และทบทวนด้วยคำถามพร้อมเฉลย">
+<title>Memory Policy Lab — คู่มือเตรียมทีม 3 คน</title>
+<style>
+:root{--bg:#f5f5ef;--paper:#fffefa;--ink:#182b2a;--muted:#586764;--line:#dbe2db;--accent:#176c5b;--soft:#e7f0e9;--gold:#946220;--gold-soft:#f6eedc;--blue:#356c94;--blue-soft:#e9f1f7;--bad:#9b3535;--bad-soft:#fff0ee;--radius:16px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.85 "Leelawadee UI","Tahoma",sans-serif}button,input,select{font:inherit}button,a,label{touch-action:manipulation}a{color:var(--accent);text-underline-offset:4px}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:4px}h1,h2,h3,h4,p{margin:0 0 14px}h1{font-size:clamp(32px,4vw,51px);line-height:1.35;letter-spacing:-.025em}h2{font-size:27px;line-height:1.5}h3{font-size:20px;line-height:1.6}h4{font-size:17px}ul,ol{padding-left:23px;margin:10px 0 20px}li+li{margin-top:7px}strong{font-weight:700}code{font: .88em/1.65 Consolas,"Courier New",monospace;background:#edf0e9;border-radius:5px;padding:2px 5px;overflow-wrap:anywhere}pre{margin:16px 0 20px;background:#203936;color:#f2f6f0;padding:20px;border-radius:12px;overflow:auto;font:14px/1.8 Consolas,monospace}pre code{background:none;color:inherit;padding:0;font:inherit;overflow-wrap:normal}.shell{max-width:1350px;margin:auto;display:grid;grid-template-columns:235px minmax(0,1fr);gap:44px;padding:32px 32px 70px}.sidebar{position:sticky;top:25px;height:calc(100vh - 50px);overflow:auto}.brand{font-size:19px;font-weight:700;line-height:1.5;padding:8px 0 25px}.brand small{display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:.1em}.nav{display:flex;flex-direction:column;gap:5px}.nav a{display:block;text-decoration:none;color:var(--muted);padding:9px 12px;border-radius:9px;font-size:14px}.nav a:hover,.nav a.current{color:var(--accent);background:var(--soft)}.nav .section-label{padding:15px 12px 5px;font-size:11px;letter-spacing:.08em;font-weight:700;color:var(--muted)}.small{font-size:13px;color:var(--muted)}.side-note{border-top:1px solid var(--line);margin-top:25px;padding-top:20px}.btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:9px 16px;border-radius:9px;font-size:14px;font-weight:600;min-height:43px}.btn:hover{border-color:var(--accent)}.btn.primary{background:var(--accent);border-color:var(--accent);color:white}.btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:white}.btn:disabled{opacity:.55;cursor:default}.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.hero{padding:35px 0 30px}.eyebrow{font:700 12px/1.5 Consolas,monospace;color:var(--accent);letter-spacing:.12em;margin-bottom:18px}.lead{font-size:18px;color:var(--muted);max-width:740px}.hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin:23px 0}.tag{font-size:12px;font-weight:600;background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:6px}.tag.gold{background:var(--gold-soft);color:var(--gold)}.tag.blue{background:var(--blue-soft);color:var(--blue)}section{border-top:1px solid var(--line);padding:36px 0 12px;margin-top:16px}.section-head{display:flex;gap:18px;align-items:baseline;margin-bottom:18px}.num{font:700 13px/1 Consolas,monospace;color:var(--accent);min-width:23px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:20px 0}.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px}.panel p:last-child{margin-bottom:0}.role-card .role-no{font:700 11px Consolas,monospace;letter-spacing:.07em;color:var(--accent);margin-bottom:10px}.role-card:nth-child(2) .role-no{color:var(--gold)}.role-card:nth-child(3) .role-no{color:var(--blue)}.role-card h3{font-size:19px}.role-card ul{font-size:14px;padding-left:19px}.note{border-left:3px solid var(--accent);background:var(--soft);padding:16px 20px;border-radius:0 9px 9px 0;margin:20px 0}.note.gold{border-color:var(--gold);background:var(--gold-soft)}.note p:last-child{margin-bottom:0}.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:25px 0;counter-reset:flow}.flow-item{border-top:3px solid var(--accent);padding:12px 8px 8px 0;font-size:14px}.flow-item:before{counter-increment:flow;content:"0" counter(flow);display:block;font:700 11px Consolas,monospace;color:var(--muted);margin-bottom:10px}.flow-item strong{display:block;margin-bottom:7px}.table-wrap{overflow-x:auto;margin:18px 0 24px}table{width:100%;border-collapse:collapse;text-align:left;font-size:14px}th{color:var(--muted);font-weight:600;font-size:12px;padding:12px 12px 12px 0;border-bottom:1px solid var(--line)}td{padding:15px 14px 15px 0;border-bottom:1px solid var(--line);vertical-align:top}td:last-child,th:last-child{padding-right:0}.trace td:nth-child(n+3){font-family:Consolas,monospace;white-space:nowrap}.trace .decision td{background:var(--gold-soft)}.trace .outcome td{background:var(--soft)}.owner-title{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:16px}.owner-title h2{margin:0}.owner-label{font:700 12px Consolas,monospace;background:var(--soft);color:var(--accent);padding:6px 10px;border-radius:6px}.owner-label.gold{color:var(--gold);background:var(--gold-soft)}.owner-label.blue{color:var(--blue);background:var(--blue-soft)}.step-list{list-style:none;counter-reset:read;padding-left:0}.step-list li{counter-increment:read;display:grid;grid-template-columns:25px 1fr;gap:10px;margin-bottom:18px}.step-list li:before{content:counter(read);font:700 13px/1.8 Consolas,monospace;color:var(--accent);padding-top:3px}.path{font:13px/1.8 Consolas,monospace;color:var(--muted);overflow-wrap:anywhere}.responsibility{font-size:14px;display:block;color:var(--muted);margin-top:8px}details{border-top:1px solid var(--line);padding:12px 0}summary{cursor:pointer;font-weight:600;font-size:15px;line-height:1.8}details .answer{padding:12px 0 0 20px;font-size:15px;color:var(--muted)}.quiz-controls{margin:20px 0}.quiz-counter{margin:15px 0;font-size:14px}.quiz-grid{display:grid;gap:17px}.quiz-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:23px}.quiz-card legend{font-size:16px;font-weight:600;padding:0;max-width:100%;line-height:1.8}.quiz-card fieldset{border:0;padding:0;margin:0;min-width:0}.quiz-meta{display:flex;gap:9px;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:13px}.option{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:14px;cursor:pointer}.option input{margin-top:7px;accent-color:var(--accent);flex-shrink:0}.feedback{padding:10px 13px;border-radius:7px;font-size:14px;margin-top:12px;background:var(--soft);color:var(--accent)}.feedback.wrong{background:var(--bad-soft);color:var(--bad)}.quiz-card details{margin-top:12px}.quiz-card .btn{margin-top:9px}.progress-line{display:flex;justify-content:space-between;gap:12px;margin-bottom:10px}.progress-track{height:8px;border-radius:20px;background:var(--line);overflow:hidden;margin-bottom:20px}.progress-fill{height:100%;background:var(--accent);width:0;transition:width .2s}.check{display:flex;gap:11px;align-items:flex-start;font-size:14px;padding:8px 0;cursor:pointer}.check input{margin-top:7px;accent-color:var(--accent);width:17px;height:17px;flex-shrink:0}.check-group h3{font-size:17px}.footer{border-top:1px solid var(--line);margin-top:40px;padding-top:25px;color:var(--muted);font-size:13px}.print-only{display:none}[hidden]{display:none!important}
+@media(max-width:1050px){.shell{grid-template-columns:190px minmax(0,1fr);gap:27px;padding:25px}.grid3{grid-template-columns:1fr}.role-card{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}.role-card .role-no{grid-column:1/-1}.role-card ul{margin:0}.flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.shell{display:block;padding:18px}.sidebar{position:static;height:auto;overflow:visible}.brand{padding-bottom:12px}.nav{flex-direction:row;flex-wrap:wrap;gap:4px}.nav a{font-size:12px;padding:7px 10px}.nav .section-label,.side-note{display:none}.hero{padding:30px 0 15px}.lead{font-size:16px}h2{font-size:23px}.grid2{grid-template-columns:1fr}.role-card{display:block}.role-card ul{margin-top:15px}.panel,.quiz-card{padding:18px}.flow-item{font-size:13px}.trace{min-width:670px}.section-head{gap:10px}section{padding-top:27px}.btn{font-size:13px;padding:8px 12px}.progress-line{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress-fill{transition:none}}
+@media print{@page{margin:16mm}body{background:white;color:black;font-size:11pt;line-height:1.65}.shell{display:block;max-width:none;padding:0}.sidebar,.no-print,.quiz-controls,.quiz-counter,.quiz-card .btn,.feedback,.progress-track{display:none!important}.hero{padding:0}.hero h1{font-size:29pt}.lead{font-size:12pt}.panel,.quiz-card{border:1px solid #bbb;background:white;box-shadow:none}.note{background:#f4f4f4}.grid3,.grid2{display:block}.grid3>* , .grid2>*{margin-bottom:12px}.flow{grid-template-columns:repeat(4,1fr)}section{padding-top:20px}h2,h3,summary{break-after:avoid}details,.quiz-card,.panel,.check{break-inside:avoid}pre{white-space:pre-wrap;background:#f4f4f4;color:black;break-inside:avoid}a{color:black}.table-wrap{overflow:visible}.trace{min-width:0}th,td{padding:7px}details .answer{display:block}.print-only{display:block}.quiz-card[hidden]{display:block!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" aria-label="สารบัญ">
+  <div class="brand">Memory Policy Lab<small>TEAM STUDY GUIDE · C / OS</small></div>
+  <nav class="nav">
+    <a href="#overview">ภาพรวมและการแบ่งงาน</a>
+    <a href="#shared">ทุกคนต้องเข้าใจร่วมกัน</a>
+    <span class="section-label">ลงลึกตามบทบาท</span>
+    <a href="#person1">คนที่ 1 · Engine + Search</a>
+    <a href="#person2">คนที่ 2 · Menu + Display</a>
+    <a href="#person3">คนที่ 3 · Files + Tests</a>
+    <span class="section-label">ฝึกก่อนนำเสนอ</span>
+    <a href="#review">แบบทบทวน 24 ข้อ</a>
+    <a href="#oral">คำถามสำหรับซ้อมพูด</a>
+    <a href="#practice">เส้นทางซ้อมสาธิต</a>
+    <a href="#ready">เช็กลิสต์ความพร้อม</a>
+  </nav>
+  <div class="side-note"><p class="small">ใช้ได้ออฟไลน์<br>อ้างอิงซอร์สเวอร์ชันที่มีโฟลเดอร์ results<br>ส่วนเฉลยกดเปิดดูได้</p><button class="btn" type="button" id="print-side">พิมพ์ / บันทึก PDF</button></div>
+</aside>
+<main>
+<header class="hero">
+  <p class="eyebrow">ONE PROJECT. THREE OWNERS. SHARED UNDERSTANDING.</p>
+  <h1>เข้าใจร่วมกัน<br>ลงลึกคนละส่วน</h1>
+  <p class="lead">คู่มือเตรียมทีม 3 คนสำหรับ Memory Policy Lab: เริ่มจากโจทย์ OS อ่านเส้นทางข้อมูลในโค้ด แล้วฝึกอธิบายผลทดลองด้วยตัวเอง</p>
+  <div class="hero-tags"><span class="tag">พื้นฐานร่วมกัน</span><span class="tag gold">แผนอ่านโค้ด 3 บทบาท</span><span class="tag blue">24 คำถาม + เฉลย</span></div>
+  <div class="actions no-print"><a class="btn primary" href="#shared">เริ่มที่พื้นฐานร่วมกัน</a><a class="btn" href="#review">ลองตอบคำถาม</a><button class="btn" id="print-top" type="button">พิมพ์คู่มือ</button></div>
+</header>
+
+<section id="overview">
+  <div class="section-head"><span class="num">01</span><h2>เราแก้ปัญหาอะไร และใครดูส่วนไหน</h2></div>
+  <p>เมื่อโปรแกรมเรียกใช้ page ที่ยังไม่อยู่ในหน่วยความจำและ frame เต็ม ระบบต้องเลือก page เดิมออก งานนี้ทดลองว่ากฎการเลือกต่างกันทำให้สถานะ frame และจำนวน page faults ต่างกันอย่างไร และค้นหา input ที่แสดงความแตกต่างนั้นได้</p>
+  <div class="note"><strong>เข้าใจภาพรวมทุกคน แต่ไม่ต้องจำโค้ดทุกบรรทัดเท่ากัน</strong><p>ทุกคนควรคำนวณตัวอย่างด้วยมือ อธิบายสาม algorithms และสาธิตโปรแกรมได้ ส่วนที่รับผิดชอบต้องอธิบายได้ลึกถึงตัวแปร ฟังก์ชัน เหตุผลการออกแบบ และการตรวจความถูกต้อง</p></div>
+  <div class="grid3">
+    <article class="panel role-card"><div class="role-no">PERSON 01</div><div><h3>Algorithms + Search</h3><p class="small">คำนวณผลและค้นหา counterexample</p></div><ul><li><code>simulator.c / .h</code></li><li><code>search.c / .h</code></li><li>ตรวจผลร่วมกับคนที่ 3</li></ul></article>
+    <article class="panel role-card"><div class="role-no">PERSON 02</div><div><h3>Menu + Display</h3><p class="small">เชื่อม workflow และอธิบาย trace</p></div><ul><li><code>main.c</code></li><li><code>display.c / .h</code></li><li>เชื่อม file browser กับคนที่ 3</li></ul></article>
+    <article class="panel role-card"><div class="role-no">PERSON 03</div><div><h3>Files + Results + Tests</h3><p class="small">ข้อมูลถูกต้อง ทดลองซ้ำได้</p></div><ul><li><code>input.c / .h</code></li><li><code>results.c / .h</code></li><li><code>tests/</code> และชุดทดลอง</li></ul></article>
+  </div>
+  <p class="small">แบ่งเป็นเจ้าของหลักเพื่อศึกษาและนำเสนอ ไม่ใช่ข้ออ้างว่าตอบเรื่องนอกส่วนตัวเองไม่ได้ คนที่ 1 มีตรรกะมาก ให้คนที่ 2 ช่วยต่อเมนูค้นหาและคนที่ 3 ช่วยตรวจผล</p>
+  <h3>เส้นทางข้อมูลที่ต้องเล่าให้ได้</h3>
+  <div class="flow" aria-label="ลำดับการทำงานของโปรแกรม">
+    <div class="flow-item"><strong>เลือก input</strong>โหลดไฟล์จาก results / path หรือค้นหา reference string ใหม่</div>
+    <div class="flow-item"><strong>ตั้งค่าทดลอง</strong>เลือกจำนวน frames และ algorithm หรือเงื่อนไขค้นหา</div>
+    <div class="flow-item"><strong>คำนวณด้วย engine</strong><code>simulate()</code> คืน Stats และส่ง Step ผ่าน callback เมื่อมีผู้รับ</div>
+    <div class="flow-item"><strong>อ่านผลและทำซ้ำ</strong>ดูตาราง เหตุผล จุดที่ต่างกัน แล้วบันทึก reference string</div>
+  </div>
+  <h3>ขอบเขตของโปรแกรมปัจจุบัน</h3>
+  <p>จำลอง reference string หนึ่งชุด เริ่มด้วย frame ว่างทุกครั้ง รองรับ FIFO, LRU, Optimal, 1–10 frames และไฟล์สูงสุด 1,000 references ส่วน search จำกัด 1–6 page IDs, ความยาว 1–12 และไม่เกิน 100,000 candidates ไม่มีการจำลอง address translation, TLB, dirty bit, disk timing หรือหลาย process</p>
+  <p>ฟีเจอร์ที่ทำแล้ว: โหลด/บันทึกไฟล์, browse results, จำลองทีละขั้น, สรุปผล, frame sweep, ค้นหา input และวิเคราะห์ FIFO/LRU ในแถวเดียวกัน ส่วนบันทึก metadata และ export CSV ที่เคยเสนอ <strong>ยังไม่ใช่ฟีเจอร์ของเวอร์ชันนี้</strong></p>
+</section>
+
+<section id="shared">
+  <div class="section-head"><span class="num">02</span><h2>ความเข้าใจร่วมกันของทั้งสามคน</h2></div>
+  <h3>ศัพท์ที่ต้องพูดเป็นภาษาของตัวเอง</h3>
+  <div class="table-wrap"><table><thead><tr><th>คำ</th><th>ความหมายในงานนี้</th><th>ตัวอย่าง</th></tr></thead><tbody>
+    <tr><td>Page / Frame</td><td>Page คือหน่วยข้อมูลที่ร้องขอ ส่วน frame คือช่องในหน่วยความจำที่เก็บหนึ่ง page</td><td>Page 7 อยู่ใน frame 2 ได้ หมายเลข page ไม่ได้กำหนดตำแหน่ง frame</td></tr>
+    <tr><td>Reference string</td><td>ลำดับหมายเลข page ที่เรียกใช้จากซ้ายไปขวา</td><td><code>1 2 1 3 1</code></td></tr>
+    <tr><td>Hit</td><td>Page ที่ร้องขออยู่ใน frame แล้ว</td><td><code>[1, 2]</code> เรียก 1 → Hit</td></tr>
+    <tr><td>Fault</td><td>Page ที่ร้องขอยังไม่อยู่ใน frame</td><td><code>[-, -]</code> เรียก 1 → Fault แม้ยังว่าง</td></tr>
+    <tr><td>Replacement / Victim</td><td>เมื่อเต็มต้องเลือก page เดิมออก; victim คือ page ที่ถูกเลือก</td><td><code>[1, 2]</code> เรียก 3 → อาจเอา 1 ออก</td></tr>
+    <tr><td>Locality</td><td>การกลับมาใช้ข้อมูลเดิมหรือข้อมูลใกล้กันเป็นพฤติกรรมที่มีผลต่อนโยบาย memory</td><td>Input แบบใช้กลุ่มเล็กซ้ำ ต่างจาก input ที่ไล่ page ใหม่ทั้งหมด งานนี้ใช้ page IDs จึงไม่ได้จำลองระยะห่าง address โดยตรง</td></tr>
+  </tbody></table></div>
+  <div class="grid3">
+    <article class="panel"><h3>FIFO</h3><p>เอา page ที่เข้ามาก่อนสุดออก</p><p><strong>Hit ไม่เลื่อนคิว</strong> เพราะเวลาที่เข้าไม่เปลี่ยน</p></article>
+    <article class="panel"><h3>LRU</h3><p>เอา page ที่ไม่ได้ใช้งานมานานที่สุดออก</p><p><strong>Hit ต้องอัปเดต</strong> เพราะเป็นการใช้งานล่าสุดใหม่</p></article>
+    <article class="panel"><h3>Optimal</h3><p>เอา page ที่จะใช้อีกไกลที่สุดในอนาคตออก</p><p>ต้องรู้อนาคต ใช้เป็น benchmark จำนวน faults</p></article>
+  </div>
+  <h3>ตัวอย่างที่ทุกคนต้องคำนวณได้: 2 frames</h3>
+  <p>ใช้ <code>1 2 1 3 1</code> แล้วตอบก่อนเปิดโปรแกรมว่าแต่ละขั้นเป็น Hit/Fault และ page ใดออก</p>
+  <div class="table-wrap"><table class="trace"><thead><tr><th>Step</th><th>Page</th><th>FIFO หลังเรียกใช้</th><th>ผล</th><th>LRU หลังเรียกใช้</th><th>ผล</th></tr></thead><tbody>
+    <tr><td>1</td><td>1</td><td>[1, -]</td><td>Fault</td><td>[1, -]</td><td>Fault</td></tr>
+    <tr><td>2</td><td>2</td><td>[1, 2]</td><td>Fault</td><td>[1, 2]</td><td>Fault</td></tr>
+    <tr><td>3</td><td>1</td><td>[1, 2]</td><td>Hit</td><td>[1, 2]</td><td>Hit</td></tr>
+    <tr class="decision"><td>4</td><td>3</td><td>[3, 2]</td><td>Fault</td><td>[1, 3]</td><td>Fault</td></tr>
+    <tr class="outcome"><td>5</td><td>1</td><td>[3, 1]</td><td>Fault</td><td>[1, 3]</td><td>Hit</td></tr>
+  </tbody></table></div>
+  <p><strong>Step 4 เลือกเหยื่อต่างกัน</strong> แต่ทั้งคู่ยัง Fault; <strong>step 5 ผล Hit/Fault จึงต่างกัน</strong> เพราะ LRU ยังเก็บ page 1 ไว้ สรุป FIFO 4 faults / 1 hit / 2 replacements, LRU 3 faults / 2 hits / 1 replacement</p>
+  <div class="note"><strong>สูตรที่ต้องรู้</strong><p><code>hits + faults = references ที่ประมวลผล</code><br><code>fault rate = faults ÷ references ที่ประมวลผล × 100</code><br>ตัวอย่าง FIFO: 4 ÷ 5 × 100 = 80% ถ้าหยุดก่อนจบ ใช้จำนวนขั้นที่ประมวลผล/แสดงจริงเป็นตัวหาร</p></div>
+  <h3>ความหมายของการค้นหา</h3>
+  <p>ให้ K เป็นจำนวน page IDs และ N เป็นความยาว reference string จะมี K<sup>N</sup> ชุด โปรแกรมไล่ candidate เหมือนเลขฐาน K และเรียก engine กับแต่ละชุด หยุดเมื่อพบตัวอย่างแรก ตรวจครบ หรือถึง limit</p>
+  <div class="table-wrap"><table><thead><tr><th>สถานะ</th><th>สรุปได้แค่ไหน</th></tr></thead><tbody>
+    <tr><td><code>SEARCH_FOUND</code></td><td>มี input ที่ตรงเงื่อนไขในขอบเขตนี้ ไม่ได้อ้างว่าสั้นที่สุด</td></tr>
+    <tr><td><code>SEARCH_EXHAUSTED</code></td><td>ไม่พบหลังตรวจครบ space ที่ตั้งไว้ ไม่ได้พิสูจน์ว่าไม่มีในขอบเขตอื่น</td></tr>
+    <tr><td><code>SEARCH_LIMIT_REACHED</code></td><td>ตรวจเพียงส่วนต้น ยังมี candidate ที่ไม่ถูกตรวจ</td></tr>
+    <tr><td><code>SEARCH_INVALID</code></td><td>Configuration ไม่ถูกต้อง ไม่ใช่ผลทดลองว่าไม่พบคำตอบ</td></tr>
+  </tbody></table></div>
+  <h3>โครงสร้างข้อมูลกลางที่ต้องรู้ร่วมกัน</h3>
+  <ul><li><code>ReferenceString</code>: array หมายเลข page กับ <code>count</code></li><li><code>Step</code>: snapshot หลังเรียกหนึ่ง page เก็บ frames, fault, evicted page, slot และ reason</li><li><code>Stats</code>: hits, faults, replacements</li><li><code>SearchConfig / SearchResult</code>: ขอบเขต เงื่อนไข จำนวนชุดที่ลอง และคำตอบที่พบ</li><li><code>ResultCatalog</code>: รายชื่อไฟล์ที่อ่านได้ใน results พร้อมจำนวน references</li></ul>
+  <p><strong>Callback</strong> คือฟังก์ชันที่ engine เรียกหลังจบหนึ่ง step เพื่อให้ผู้รับแสดงผลหรือคัดลอก snapshot ได้ Search ใช้ callback เป็น <code>NULL</code> เพื่อคำนวณ Stats อย่างเดียว</p>
+  <h3>สิ่งที่ทุกคนควรพูดให้ตรงกัน</h3>
+  <ul><li>Page 0 ถูกต้อง; ช่องว่างใช้ <code>EMPTY_PAGE = -1</code></li><li>ทุก run เริ่มด้วย frame ว่าง ต้องใช้ input และ frames เดียวกันเพื่อเทียบ algorithm</li><li>LRU ไม่ชนะ FIFO ทุก input และการเพิ่ม frame ไม่ได้ลด faults เสมอใน FIFO</li><li>ไฟล์ที่ save เก็บแค่ reference string ต้องจำ/บันทึก frames แยกเอง</li><li>บน Windows results อยู่ข้าง build ของโปรเจกต์; full path ยังเปิดไฟล์นอก results ได้</li></ul>
+</section>
+
+<section id="person1">
+  <div class="owner-title"><span class="owner-label">PERSON 01</span><h2>เจ้าของ Algorithms และการค้นหา</h2></div>
+  <p class="lead">ต้องอธิบายได้ว่า engine ตัดสินใจอะไร เก็บสถานะอย่างไร และ search นำ engine ไปทดลองซ้ำอย่างไร</p>
+  <h3>ลำดับอ่านโค้ด</h3>
+  <ol class="step-list">
+    <li><div><strong><code>src/simulator.h</code></strong><br>อ่าน enum Algorithm, EMPTY_PAGE และ struct ทั้งสาม มองว่า Step คือข้อมูลส่งออกของหนึ่งขั้น ส่วน Stats คือผลสะสมของหนึ่ง run</div></li>
+    <li><div><strong><code>src/simulator.c</code> → <code>simulate()</code></strong><br>ไล่ validation → ตั้ง frames ว่าง → วน references → ค้นหา hit → หา frame ว่าง → เลือก victim → อัปเดต → callback</div></li>
+    <li><div><strong><code>src/search.h</code></strong><br>อ่าน SearchCondition, SearchConfig, SearchStatus และ SearchResult แยก total space ออกจาก tested และ limit</div></li>
+    <li><div><strong><code>src/search.c</code></strong><br>อ่าน <code>search_candidate_count()</code> → <code>next_candidate()</code> → <code>search_references()</code> แล้ว trace input ชุดเล็กด้วยมือ</div></li>
+    <li><div><strong><code>tests/test_simulator.c</code> + <code>tests/test_search.c</code></strong><br>ให้คนที่ 3 ช่วยดูว่า test ตรวจสิ่งที่อธิบายไว้จริงหรือไม่ ไม่ใช้แค่ “โปรแกรมไม่ crash” เป็นหลักฐาน</div></li>
+  </ol>
+  <div class="table-wrap"><table><thead><tr><th>ตัวแปร/ฟังก์ชัน</th><th>ต้องเข้าใจอะไร</th></tr></thead><tbody>
+    <tr><td><code>frames[]</code></td><td>สถานะ resident pages ของ run นี้ เปลี่ยนเมื่อโหลดหรือแทนที่</td></tr>
+    <tr><td><code>fifo_next</code></td><td>ชี้ตำแหน่ง FIFO ถัดไป เลื่อนเมื่อโหลด ไม่เลื่อนเมื่อ hit</td></tr>
+    <tr><td><code>last_used[]</code></td><td>เก็บ index การใช้ล่าสุดของแต่ละ frame อัปเดตทุก access และใช้ค่าน้อยที่สุดเลือกเหยื่อ LRU</td></tr>
+    <tr><td><code>farthest / next</code></td><td>Optimal ค้นหาการใช้ครั้งถัดไป ถ้าไม่พบใช้ count เป็น sentinel กรณี tie เก็บ frame ต่ำสุด</td></tr>
+    <tr><td><code>step.evicted_page</code></td><td>เป็น EMPTY_PAGE เมื่อ hit หรือโหลดช่องว่าง ช่วยแยก fault กับ replacement</td></tr>
+    <tr><td><code>next_candidate()</code></td><td>เพิ่มหลักขวาสุด หากเต็มให้กลับเป็น 0 แล้วทดไปหลักซ้าย ไม่ต้อง recursion</td></tr>
+    <tr><td><code>budget</code></td><td>ค่าเล็กกว่าระหว่าง total และ limit เพื่อไม่ค้นหาเกิน space/ขีดจำกัด</td></tr>
+  </tbody></table></div>
+  <details><summary>เปิดดูโค้ดสำคัญ: ข้อมูลออกจาก engine ผ่าน callback</summary><div class="answer"><pre><code>last_used[slot] = i;
+step.slot = slot;
+memcpy(step.frames, frames, sizeof(frames));
+if (callback && !callback(&amp;step, context)) break;</code></pre><p>คัดลอก frame ลง Step ก่อนส่งให้ผู้รับ ถ้า callback คืน 0 ให้หยุด run ส่วน <code>simulate()</code> ยังคืน 1 เมื่อ configuration ถูกต้อง แม้ถูกหยุดก่อนครบ references</p></div></details>
+  <details><summary>เปิดดูการนับ candidate แบบเลขฐาน K</summary><div class="answer"><pre><code>size_t position = references-&gt;count;
+while (position &gt; 0) {
+    --position;
+    if (++references-&gt;pages[position] &lt; page_count) return;
+    references-&gt;pages[position] = 0;
+}</code></pre><p>K=3: <code>0 0 2</code> → <code>0 1 0</code> ไม่ข้ามชุดและไม่ใช้ random Seed จึงไม่จำเป็นสำหรับ search ปัจจุบัน</p></div></details>
+  <h3>ความรู้ C ที่ต้องลงลึก</h3>
+  <ul><li>Array กับ index: ภายในเริ่มที่ 0 แต่ข้อความแสดง step เริ่มที่ 1</li><li>Struct assignment: <code>result-&gt;references = candidate</code> คัดลอก array ที่อยู่ใน struct ด้วย</li><li>Pointer parameters: engine เขียน Stats ให้ caller และ callback รับ context ของผู้เรียก</li><li><code>enum</code>, <code>size_t</code>, <code>unsigned long</code>, modulo และขอบเขตค่าที่คูณได้</li><li>ความซับซ้อน: FIFO/LRU ของโค้ดนี้ O(NF), Optimal O(N²F); search สองนโยบาย O(CNF) ส่วนจำนวน candidates ทั้งหมด K<sup>N</sup></li></ul>
+  <div class="note gold"><strong>โจทย์ที่ต้องทำได้ด้วยมือ</strong><p>1) คำนวณ FIFO/LRU บน <code>1 2 1 3 1</code>, F=2<br>2) อธิบาย <code>0 0 1 0 2 3 1</code>, F=3 ว่าทำไม FIFO ได้ 4 faults แต่ LRU ได้ 5<br>3) ไล่ candidate ของ K=2, N=3 ทั้ง 8 ชุด แล้วแยก exhausted กับ limit</p></div>
+  <h3>สิ่งที่ต้องส่งต่อให้ทีม</h3><p>อธิบาย interface <code>simulate()</code> และ SearchResult ให้คนที่ 2 ใช้ได้ และให้คนที่ 3 ตรวจว่าผลที่พบตรงเงื่อนไขด้วย engine อีกครั้ง อย่าเขียน engine ซ้ำในเมนูหรือส่วนทดสอบผลค้นหา</p>
+</section>
+
+<section id="person2">
+  <div class="owner-title"><span class="owner-label gold">PERSON 02</span><h2>เจ้าของเมนู Workflow และการแสดงผล</h2></div>
+  <p class="lead">ต้องพาผู้ใช้จาก “เลือกข้อมูล” ไปถึง “อ่านเหตุผล” ได้ และแสดงผลที่ตรงกับสิ่งที่ engine คำนวณ</p>
+  <h3>ลำดับอ่านโค้ด</h3>
+  <ol class="step-list">
+    <li><div><strong><code>src/main.c</code> → <code>main()</code></strong><br>ดู state ที่อยู่ข้ามเมนู: references, frames, algorithm และ results_directory ดูว่าเมนูใดใช้ state ใด</div></li>
+    <li><div><strong><code>run_search()</code>, <code>load_from_results()</code>, <code>save_to_results()</code></strong><br>แยก workflow ของผู้ใช้จากตรรกะ search และ file I/O เมื่อค้นพบ จึงเปลี่ยน active input/frames; ถ้าไม่พบเก็บของเดิม</div></li>
+    <li><div><strong><code>src/display.c</code> → <code>run_display()</code>, <code>show_step()</code></strong><br>ดู format frames, callback, คำสั่ง Enter/a/q และการนับสถิติส่วนที่รันไปแล้ว</div></li>
+    <li><div><strong><code>compare_traces()</code>, <code>capture_step()</code>, <code>count_step()</code></strong><br>คัดลอก snapshot ของทั้ง FIFO/LRU ก่อนแสดง และนับเฉพาะ steps ที่แสดงเมื่อผู้ใช้หยุด</div></li>
+    <li><div><strong><code>compare_algorithms()</code>, <code>frame_sweep()</code></strong><br>ดูวิธี reset ทุก run และคำนวณผลเปรียบเทียบโดยไม่ต้องพิมพ์ trace ทั้งหมด</div></li>
+  </ol>
+  <h3>เมนูเชื่อมกับฟังก์ชันไหน</h3>
+  <div class="table-wrap"><table><thead><tr><th>เมนู</th><th>ฟังก์ชันหลัก</th><th>เจ้าของที่ต้องประสาน</th></tr></thead><tbody>
+    <tr><td>1 โหลด / 11 บันทึก</td><td><code>load_from_results()</code> / <code>save_to_results()</code></td><td>คนที่ 3: results และ parser</td></tr>
+    <tr><td>2 frames / 3 algorithm</td><td>validation และอัปเดต state ใน <code>main()</code></td><td>คนที่ 1: ขอบเขต engine</td></tr>
+    <tr><td>4 ทีละขั้น / 5 ทั้งหมด</td><td><code>run_display()</code></td><td>คนที่ 1: StepCallback</td></tr>
+    <tr><td>6 เปรียบเทียบ / 8 sweep</td><td><code>compare_algorithms()</code> / <code>frame_sweep()</code></td><td>ทั้งทีม: การทดลองที่ยุติธรรม</td></tr>
+    <tr><td>7 ดู input</td><td><code>show_references()</code></td><td>ทั้งทีม: ตรวจข้อมูลก่อนสาธิต</td></tr>
+    <tr><td>9 ค้นหา</td><td><code>run_search()</code> → <code>search_references()</code></td><td>คนที่ 1: สถานะและผลค้นหา</td></tr>
+    <tr><td>10 วิเคราะห์ FIFO/LRU</td><td><code>compare_traces()</code></td><td>ทั้งทีม: เหตุผลของความต่าง</td></tr>
+  </tbody></table></div>
+  <h3>จุดที่ต้องอ่านให้ละเอียด</h3>
+  <ul><li><code>ask_integer()</code> รับ Enter เป็นค่าเริ่มต้น และตรวจช่วงค่าก่อนใช้</li><li>เมื่อ search พบคำตอบ จะเปลี่ยน references กับ frames แต่ไม่เปลี่ยน algorithm ที่เลือกไว้</li><li><code>format_frames()</code> รวม frame เป็น <code>[1, -]</code> และคำนวณความกว้างคอลัมน์จากจำนวน frame/หลักของ page</li><li>โหมดเดี่ยวใช้ callback ระหว่าง engine ทำงาน; โหมดสองฝั่งคำนวณ trace ครบก่อนแล้วค่อยเล่นทีละแถว</li><li>เมื่อหยุดโหมดสองฝั่งต้องนับผลเฉพาะที่แสดง ไม่ใช้ full Stats ไปสรุปว่าผู้ใช้เห็นครบแล้ว</li><li>จุด “replacement decision ต่างกัน” ตรวจ evicted page; จุด “Hit/Fault ต่างกัน” ตรวจ fault flag จึงเป็นคนละเหตุการณ์</li></ul>
+  <details><summary>เปิดดูโค้ดสำคัญ: คัดลอก Step แทนการเก็บ pointer ชั่วคราว</summary><div class="answer"><pre><code>static int capture_step(const Step *step, void *context)
+{
+    TraceContext *trace = context;
+    trace-&gt;steps[step-&gt;index] = *step;
+    return 1;
+}</code></pre><p>Step ของ engine อยู่ใน stack และใช้ได้ใน callback ขณะนั้น การ copy ลง array บน heap ทำให้แสดงย้อนหลังได้ ต้องตรวจ malloc และ free เมื่อเสร็จหรือเกิด error</p></div></details>
+  <h3>ความรู้ C ที่ต้องลงลึก</h3>
+  <ul><li>Function pointer กับ <code>void *context</code>: ส่งข้อมูลของส่วน display ผ่าน interface กลาง</li><li><code>malloc/free</code>: ใครจอง ใครเป็นเจ้าของ และต้องคืนหน่วยความจำในทาง error ด้วย</li><li><code>printf</code> field width / <code>snprintf</code>: ระยะคอลัมน์และขนาด buffer</li><li>UI state กับ simulation state: state เมนูอยู่ข้ามรอบ แต่ frames ภายใน engine เริ่มใหม่ทุก run</li><li>การนับผลบางส่วน: <code>count_step()</code> และจำนวน shown สัมพันธ์กับ Stats อย่างไร</li></ul>
+  <div class="note gold"><strong>โจทย์ซ้อม</strong><p>โหลด lru_wins → ตั้ง 2 frames → เมนู 10 โหมด 1 → หยุดหลังแถวแรก ต้องรายงานหนึ่ง step และไม่มีเหตุการณ์ step 4/5 ในการวิเคราะห์ จากนั้นรันใหม่ให้ครบและอธิบายความต่าง</p></div>
+  <h3>สิ่งที่ต้องส่งต่อให้ทีม</h3><p>ทุกคนควรเดินเมนูสาธิตได้ คนที่ 2 รับผิดชอบเล่า workflow รวมและตาราง แต่ให้คนที่ 1 ช่วยอธิบาย victim และคนที่ 3 ช่วยเล่าการบันทึก/ทำซ้ำ</p>
+</section>
+
+<section id="person3">
+  <div class="owner-title"><span class="owner-label blue">PERSON 03</span><h2>เจ้าของข้อมูล Results และหลักฐานการทดสอบ</h2></div>
+  <p class="lead">ต้องอธิบายได้ว่าข้อมูลเข้าถูกตรวจอย่างไร ไฟล์อยู่ที่ไหน และเรารู้ได้อย่างไรว่าผลทดลองเชื่อถือได้</p>
+  <h3>ลำดับอ่านโค้ด</h3>
+  <ol class="step-list">
+    <li><div><strong><code>src/input.c / .h</code></strong><br>อ่าน <code>load_references()</code>, <code>save_references()</code>, <code>parse_integer()</code>, <code>read_line()</code> และทดสอบข้อมูลถูก/ผิดด้วยตัวเอง</div></li>
+    <li><div><strong><code>src/results.c / .h</code></strong><br>อ่าน initialization → path resolution → next filename → enumeration/filter → sorting แยกหน้าที่จัดการ path ออกจาก parser</div></li>
+    <li><div><strong><code>tests/test_simulator.c</code>, <code>test_search.c</code>, <code>test_results.c</code></strong><br>อ่าน expected result, oracle และการตรวจ boundary แยก test ที่ยืนยันคำตอบจาก test ที่ตรวจ invariants</div></li>
+    <li><div><strong><code>tests/test_cli.ps1</code>, <code>test_results_cli.ps1</code></strong><br>ดูการส่งคำตอบให้เมนูจริง ตรวจผล และสร้าง fixture แยกจาก results ของผู้ใช้</div></li>
+    <li><div><strong><code>build.bat</code>, <code>test.bat</code>, <code>run.bat</code>, <code>examples/</code></strong><br>รู้วิธี build/test และเตรียมชุด input ที่ใช้รายงานให้สมาชิกอื่นทำซ้ำได้</div></li>
+  </ol>
+  <h3>Input และ path ทำงานอย่างไร</h3>
+  <div class="table-wrap"><table><thead><tr><th>ส่วน</th><th>สิ่งที่ต้องอธิบาย</th></tr></thead><tbody>
+    <tr><td><code>load_references()</code></td><td>อ่านเข้า candidate ก่อน หากครบและถูกต้องจึง assign ให้ result โหลดผิดจึงไม่ทำลาย input เดิม</td></tr>
+    <tr><td>UTF-8 BOM / UTF-16</td><td>ข้าม BOM ของ UTF-8 ได้ ปฏิเสธ UTF-16 พร้อมบอกให้บันทึกใหม่ อ่าน token ตัวเลขไม่ติดลบ คั่น whitespace</td></tr>
+    <tr><td>ตัวเลขล้น</td><td>ก่อน <code>number * 10 + digit</code> ตรวจด้วย <code>(INT_MAX - digit) / 10</code> เพื่อไม่ overflow ก่อนตรวจ</td></tr>
+    <tr><td><code>initialize_results()</code></td><td>Windows ใช้ตำแหน่ง executable หากอยู่ใน build ให้ใช้ results ของ parent project; ฝั่ง Unix ใช้ working directory</td></tr>
+    <tr><td><code>resolve_reference_path()</code></td><td>ชื่อเปล่าไป results และเติม .txt หากยังไม่มี; ถ้ามี slash/backslash/colon ให้ใช้ path ที่ระบุ</td></tr>
+    <tr><td><code>next_result_path()</code></td><td>หาเลขแรกที่ยังไม่มีไฟล์ เช่น result_001.txt แล้ว result_002.txt เพื่อไม่ทับชื่ออัตโนมัติ</td></tr>
+    <tr><td><code>list_result_files()</code></td><td>ดูไฟล์ปกติ .txt แล้วใช้ parser ตรวจว่าโหลดได้จริง เก็บชื่อ/จำนวน references และเรียงชื่อก่อนแสดง</td></tr>
+  </tbody></table></div>
+  <p>ชื่อไฟล์ที่ระบุเองอาจทับไฟล์เดิมได้ตามข้อความในเมนู; full path ยังใช้งานได้แม้ไฟล์อยู่นอก results Path ภาษาไทยบน Windows ขึ้นกับ code page ของ runtime จึงควรใช้ชื่อภาษาอังกฤษสำหรับการสาธิต</p>
+  <details><summary>เปิดดูโค้ดสำคัญ: ทำไม input เดิมไม่หายเมื่อโหลดผิด</summary><div class="answer"><pre><code>ReferenceString candidate = {{0}, 0};
+/* อ่านและตรวจ token ลง candidate
+   หากมีข้อผิดพลาด return 0 ก่อนถึงบรรทัด assign */
+*result = candidate;
+return 1;</code></pre><p>นี่เป็นข้อความย่อจาก flow ของ parser ไม่ใช่ฟังก์ชันเต็ม จุดสำคัญคือเปลี่ยนข้อมูลของ caller เมื่ออ่านสำเร็จทั้งหมดแล้วเท่านั้น</p></div></details>
+  <h3>การทดสอบแต่ละชุดพิสูจน์อะไร</h3>
+  <div class="table-wrap"><table><thead><tr><th>ไฟล์ทดสอบ</th><th>หลักฐานที่ได้</th></tr></thead><tbody>
+    <tr><td><code>test_simulator.c</code></td><td>ผลที่รู้ล่วงหน้า, FIFO/LRU update, trace invariants และ Optimal เทียบ exhaustive oracle บน 729 traces ความยาว 6 ที่ 1–3 frames</td></tr>
+    <tr><td><code>test_search.c</code></td><td>เทียบการสร้าง candidate ด้วยการ decode เลขฐาน K อย่างอิสระ ตรวจ first match, limit boundary, ทั้งสองฝ่ายชนะ และ save/reload</td></tr>
+    <tr><td><code>test_results.c</code></td><td>สร้าง directory, resolve path, กรองไฟล์ผิด/โฟลเดอร์, sorting และเลือกชื่ออัตโนมัติ</td></tr>
+    <tr><td><code>test_cli.ps1</code></td><td>เมนูจริง ตาราง คู่ trace การค้นหา หยุด/restart และค่าขอบเขต</td></tr>
+    <tr><td><code>test_results_cli.ps1</code></td><td>เลือก index/name/full path, เปิดจาก cwd อื่น, โฟลเดอร์ว่าง, invalid input และ default names ในพื้นที่ทดลองแยก</td></tr>
+  </tbody></table></div>
+  <h3>ความรู้ C และการทดลองที่ต้องลงลึก</h3>
+  <ul><li><code>FILE *</code>, fopen/fgetc/fprintf/fclose และการตรวจ read/write errors</li><li><code>errno</code>, <code>strtol</code>, <code>INT_MAX</code>, whitespace และ encoding</li><li>Path, working directory, regular file/directory, <code>stat()</code>, directory enumeration และ <code>qsort()</code></li><li><code>#ifdef _WIN32</code>: ทำไม API สำหรับหา executable และอ่าน directory แยกตามระบบ</li><li><code>assert</code>, expected results, independent oracle, round-trip และ exit code; tests ห้ามใช้ <code>-DNDEBUG</code></li></ul>
+  <div class="note"><strong>หลักฐานที่ควรเตรียม</strong><p>ตาราง 3 การทดลอง: LRU ชนะ, FIFO ชนะ, Belady ระบุ input, frames, search condition, K, N, limit และจำนวนชุดที่ลอง ไม่แนบแค่ screenshot โดยไม่มีค่าตั้งต้น</p></div>
+  <h3>สิ่งที่ต้องส่งต่อให้ทีม</h3><p>ให้คนที่ 2 ใช้ results API ในเมนู และให้คนที่ 1 ร่วมยืนยันผลทดสอบ กำหนดคำพูดให้ถูกว่า tests ครอบคลุมกรณีที่ตรวจแล้ว ไม่ได้พิสูจน์ว่าโปรแกรมปราศจาก bug ทุก input</p>
+</section>
+<section id="review">
+  <div class="section-head"><span class="num">03</span><h2>แบบทบทวนความเข้าใจ 24 ข้อ</h2></div>
+  <p>ลองตอบก่อนดูเฉลย เลือกหมวดที่รับผิดชอบได้ แต่ทุกคนควรทำพื้นฐานร่วมกัน 6 ข้อ คะแนนนี้ใช้ฝึกตัวเอง ไม่ใช่เกณฑ์ให้คะแนนของอาจารย์</p>
+  <div class="actions quiz-controls no-print" role="group" aria-label="เลือกหมวดคำถาม">
+    <button class="btn" data-quiz-filter="all" aria-pressed="true" type="button">ทั้งหมด 24</button>
+    <button class="btn" data-quiz-filter="shared" aria-pressed="false" type="button">พื้นฐานร่วมกัน</button>
+    <button class="btn" data-quiz-filter="p1" aria-pressed="false" type="button">คนที่ 1</button>
+    <button class="btn" data-quiz-filter="p2" aria-pressed="false" type="button">คนที่ 2</button>
+    <button class="btn" data-quiz-filter="p3" aria-pressed="false" type="button">คนที่ 3</button>
+  </div>
+  <p class="quiz-counter" id="quiz-score" aria-live="polite">ตอบแล้ว 0 / 24 ข้อ · ตรวจแล้ว 0 ข้อ · ถูก 0 ข้อ</p>
+  <div class="actions no-print" style="margin-bottom:20px"><button class="btn primary" id="grade-visible" type="button">ตรวจข้อที่ตอบในหมวดนี้</button><button class="btn" id="reset-quiz" type="button">เริ่มตอบใหม่</button></div>
+  <div id="quiz-list" class="quiz-grid"></div>
+  <noscript><p class="note">แบบเลือกคำตอบต้องเปิด JavaScript ส่วนเนื้อหาและคำถามซ้อมพูดด้านล่างอ่านได้ตามปกติ</p></noscript>
+</section>
+
+<section id="oral">
+  <div class="section-head"><span class="num">04</span><h2>คำถามสำหรับซ้อมตอบอาจารย์</h2></div>
+  <p>ผลัดกันถามโดยไม่อ่านหน้าจอ ให้ผู้ตอบอธิบายประมาณ 30–60 วินาที แล้วให้เพื่อนอีกคนตรวจจากโค้ดหรือเปิดเฉลย</p>
+  <h3>ทุกคนต้องตอบได้</h3>
+  <details><summary>1. โปรเจกต์นี้ทำอะไร และมีอะไรนอกขอบเขต?</summary><div class="answer">จำลอง page replacement ของ reference string หนึ่งชุด เริ่มด้วย frame ว่าง เปรียบเทียบ FIFO/LRU/Optimal และค้นหา input ตามเงื่อนไข ผลหลักคือ faults กับ trace ไม่ได้จำลอง TLB, address translation, disk timing, dirty bits หรือหลาย process จึงไม่ใช้ผลนี้อ้างประสิทธิภาพระบบจริงทั้งหมด</div></details>
+  <details><summary>2. ทำไมทั้ง “LRU ชนะ” และ “FIFO ชนะ” จึงเกิดขึ้นได้?</summary><div class="answer">ทั้งคู่ใช้ข้อมูลในอดีตคนละแบบ ลำดับ access บางชุดทำให้ page ที่ FIFO เก็บไว้ได้ใช้ต่อ ในขณะที่ LRU เอาออก ตัวอย่าง F=3, <code>0 0 1 0 2 3 1</code> ได้ FIFO 4 / LRU 5 faults หลักฐานนี้หักล้างคำว่า LRU ชนะทุกชุด แต่ไม่ได้พิสูจน์ว่า FIFO ชนะโดยเฉลี่ยทุก workload</div></details>
+  <details><summary>3. ทำไมเพิ่ม frame แล้ว FIFO faults อาจเพิ่ม?</summary><div class="answer">การเปลี่ยนความจุเปลี่ยนลำดับการโหลดและเหยื่อใน FIFO จึงอาจทำให้ state ในอนาคตแย่ลง ตัวอย่าง <code>1 2 3 4 1 2 5 1 2 3 4 5</code> ได้ 9 faults ที่ 3 frames และ 10 ที่ 4 frames เรียก Belady's anomaly ควรเปิดเมนู 8 แสดงหลักฐานและไม่สรุปว่าทุกครั้งที่เพิ่ม frame จะเกิด anomaly</div></details>
+  <h3>คนที่ 1: เหตุผลของการคำนวณ</h3>
+  <details><summary>4. ไล่ flow ของ simulate() ตั้งแต่รับ input จนส่งผลหนึ่ง step</summary><div class="answer">ตรวจขอบเขตและเลข page → clear Stats/frames → หา page ปัจจุบันใน frames → hit หรือ fault → หาก fault หา empty slot ก่อน → ถ้าเต็มเลือกเหยื่อด้วย policy → อัปเดต frames และ last_used → คัดลอกลง Step → เรียก callback ถ้ามี ผู้รับสั่งหยุดได้ แล้ว engine คืนสถานะ configuration</div></details>
+  <details><summary>5. ทำไม search สร้าง candidate ด้วยเลขฐาน K และ K^N มีผลอย่างไร?</summary><div class="answer">แต่ละตำแหน่งเลือก page ได้ K ค่า ลำดับยาว N จึงมี K^N ชุด การเพิ่มค่าจากขวาพร้อม carry ครอบคลุมทุกชุดตามลำดับ เมื่อ K/N เพิ่ม space โตแบบยกกำลัง จึงมี search limit และต้องแยกไม่พบหลังตรวจครบจากถึง limit ก่อนครบ</div></details>
+  <details><summary>6. ตัวอย่างที่ search พบเป็น input สั้นที่สุดหรือไม่?</summary><div class="answer">ไม่อ้างว่าสั้นที่สุด เพราะตรวจเฉพาะความยาวที่ตั้งและหยุดที่ตัวอย่างแรกในลำดับนั้น หากจะพิสูจน์ shortest ภายใต้ alphabet เดิม ต้องตรวจทุกความยาวที่สั้นกว่าครบก่อน หากถึง limit ก็ยังพิสูจน์แม้แต่ space ปัจจุบันไม่ได้</div></details>
+  <h3>คนที่ 2: ความถูกต้องของสิ่งที่แสดง</h3>
+  <details><summary>7. ทำไมต้องแยกจุดที่เลือกเหยื่อต่างกันจากจุดที่ Hit/Fault ต่างกัน?</summary><div class="answer">เหยื่อที่ต่างกันเปลี่ยนสิ่งที่เหลืออยู่ แต่ในขั้นที่แทนที่ทั้งคู่ยังอาจ fault เหมือนกัน ผลต่างอาจเห็นในการเรียกใช้ครั้งถัดไป ตัวอย่าง <code>1 2 1 3 1</code>, F=2 แยก decision ที่ step 4 กับ outcome ที่ step 5 โปรแกรมตรวจ evicted_page กับ fault flag คนละเงื่อนไข</div></details>
+  <details><summary>8. ทำไม capture_step() ต้องคัดลอก struct และใช้ malloc?</summary><div class="answer">Step ของ engine เป็นตัวแปรชั่วคราวใน stack เก็บ pointer ไว้ใช้ภายหลังไม่ได้ จึง copy snapshot ลง array ที่จองขนาดตามจำนวน references เพื่อแสดง trace ของสอง algorithms ต้องตรวจการจองล้มเหลวและ free ทุกทางออก</div></details>
+  <details><summary>9. ผู้ใช้กด q แล้ว Stats ของโหมดสองฝั่งควรเป็นอย่างไร?</summary><div class="answer">แม้ engine คำนวณ trace ครบก่อนแสดง แต่ UI ต้องรายงานเฉพาะแถวที่ผู้ใช้เห็น ใช้ count_step สะสมถึง shown และวิเคราะห์ความต่างเฉพาะช่วงนั้น ไม่ใช้ full Stats ไปบอกว่าผู้ใช้ประมวลผลครบแล้ว</div></details>
+  <h3>คนที่ 3: ข้อมูลและหลักฐาน</h3>
+  <details><summary>10. ถ้าโหลด input ผิดหลังมี input เดิม โปรแกรมทำอย่างไร?</summary><div class="answer">Parser อ่านเข้า candidate ก่อน หาก token ผิด ตัวเลขล้น หรือไม่มีข้อมูล คืน 0 โดยยังไม่ assign result เมนูจึงแจ้ง error และเก็บ references เดิมไว้ เช่นโหลด classic สำเร็จแล้วลองไฟล์ที่มี <code>1 two 3</code></div></details>
+  <details><summary>11. จะทำให้คนอื่นทดลองซ้ำได้อย่างไร?</summary><div class="answer">บันทึก reference string เป็น .txt และบันทึก frames, algorithm, search condition, K, N, limit, tested ในรายงาน เพราะไฟล์ input ยังไม่เก็บ metadata โหลดด้วยเมนู 1 ตั้ง frames เดิม แล้วใช้เมนู 6/10 ตรวจผลเดียวกัน</div></details>
+  <details><summary>12. tests ผ่านแปลว่าถูกต้องทุกกรณีหรือไม่?</summary><div class="answer">ไม่ใช่ เป็นหลักฐานเฉพาะสิ่งที่ตรวจ แต่ชุดนี้มีทั้งผลที่ทราบคำตอบ invariants, independent oracle และ integration tests เช่น Optimal เทียบทุกทางเลือกบน 729 traces กับ search เทียบการ decode candidate อย่างอิสระ ช่วยลดโอกาสที่ implementation กับ test ผิดเหมือนกัน</div></details>
+</section>
+
+<section id="practice">
+  <div class="section-head"><span class="num">05</span><h2>ซ้อมสาธิตร่วมกันหนึ่งรอบ</h2></div>
+  <div class="table-wrap"><table><thead><tr><th>ลำดับ</th><th>สิ่งที่ทำ</th><th>คนเล่าหลัก</th><th>ผลที่ต้องอธิบาย</th></tr></thead><tbody>
+    <tr><td>1</td><td>เปิด <code>run.bat</code> โหลด <code>examples/lru_wins.txt</code> ตั้ง F=2 แล้วเมนู 10</td><td>คนที่ 2 → คนที่ 1</td><td>Step 4 decision ต่าง / step 5 outcome ต่าง; FIFO 4 / LRU 3 faults</td></tr>
+    <tr><td>2</td><td>เมนู 9: condition=1, K=4, N=7, F=3, limit=100000</td><td>คนที่ 1</td><td>พบ <code>0 0 1 0 2 3 1</code> หลัง 302 ชุด; FIFO 4 / LRU 5 faults</td></tr>
+    <tr><td>3</td><td>เมนู 10 ดูสองฝั่ง แล้วเมนู 11 กด Enter บันทึก</td><td>คนที่ 2 → คนที่ 3</td><td>Decision ต่าง step 6 / outcome ต่าง step 7; save ลง results ด้วยชื่อใหม่</td></tr>
+    <tr><td>4</td><td>เมนู 1 เลือกไฟล์ที่เพิ่งบันทึก ใช้เมนู 6 ตรวจอีกครั้ง</td><td>คนที่ 3</td><td>ไฟล์ยังเป็น input เดิม ตั้ง F=3 ให้ตรง ผลเท่าเดิม</td></tr>
+    <tr><td>5</td><td>โหลด <code>examples/belady.txt</code> แล้วเมนู 8</td><td>ทุกคน</td><td>FIFO 3 frames ได้ 9 faults / 4 frames ได้ 10</td></tr>
+  </tbody></table></div>
+  <div class="note"><strong>สูตรค้นหาที่ใช้ง่ายที่สุด</strong><p>เมนู 9 → Enter รับค่าเริ่มต้น 5 ครั้ง พบ <code>0 1 0 2 0</code> หลัง 34 จาก 243 ชุด ที่ F=2 ได้ FIFO 4 / LRU 3 faults สูตรนี้ใช้ตรวจว่า search และการโหลดคำตอบเชื่อมกันถูกต้อง</p></div>
+  <h3>เส้นทางเรียนก่อนซ้อม</h3>
+  <ol><li><strong>ช่วงแรกร่วมกัน:</strong> อ่านศัพท์กับตัวอย่าง shared และคำนวณด้วยมือให้ตรงกัน</li><li><strong>แยกอ่านตามบทบาท:</strong> เปิดโค้ดตามลำดับในคู่มือ แล้วตอบหมวดของตัวเอง</li><li><strong>สอนเพื่อน:</strong> แต่ละคนอธิบายส่วนตัวเอง 3–5 นาที ให้เพื่อนถามจาก oral questions</li><li><strong>ซ้อมทั้งรอบ:</strong> สลับคนกดเมนูและคนพูด ทำให้ทุกคนเดิน workflow ได้</li></ol>
+</section>
+
+<section id="ready">
+  <div class="section-head"><span class="num">06</span><h2>เช็กลิสต์ความพร้อมของทีม</h2></div>
+  <p>ติ๊กเมื่ออธิบายหรือทำได้จริง รายการนี้บันทึกใน browser ของเครื่องนี้เมื่อ browser อนุญาต จึงไม่ใช่การ sync ระหว่างสมาชิก</p>
+  <div class="progress-line"><strong id="ready-count" aria-live="polite">พร้อม 0 / 18 รายการ</strong><span class="small">ใช้เป็นรายการทบทวน ไม่ใช่คะแนนงาน</span></div>
+  <div class="progress-track no-print" role="progressbar" aria-label="ความพร้อมของทีม" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0" id="ready-progress"><div class="progress-fill" id="ready-fill"></div></div>
+  <div class="grid2">
+    <div class="panel check-group"><h3>ร่วมกันทั้งสามคน</h3>
+      <label class="check"><input type="checkbox" data-check="shared-1"><span>แยก page, frame, hit, fault และ replacement ได้</span></label>
+      <label class="check"><input type="checkbox" data-check="shared-2"><span>คำนวณตัวอย่าง 1 2 1 3 1 ที่ 2 frames ด้วยมือได้</span></label>
+      <label class="check"><input type="checkbox" data-check="shared-3"><span>อธิบายกฎ FIFO/LRU/Optimal และข้อมูลที่ใช้ได้</span></label>
+      <label class="check"><input type="checkbox" data-check="shared-4"><span>แยก found, exhausted, limit และขอบเขตข้อสรุปได้</span></label>
+      <label class="check"><input type="checkbox" data-check="shared-5"><span>สาธิต FIFO ชนะ LRU และ Belady พร้อมอธิบายได้</span></label>
+      <label class="check"><input type="checkbox" data-check="shared-6"><span>รู้ข้อจำกัด simulator และวิธีบันทึกค่าเพื่อทำซ้ำ</span></label>
+    </div>
+    <div class="panel check-group"><h3>คนที่ 1 · Engine + Search</h3>
+      <label class="check"><input type="checkbox" data-check="p1-1"><span>ไล่ simulate() และการอัปเดต state ได้</span></label>
+      <label class="check"><input type="checkbox" data-check="p1-2"><span>อธิบาย FIFO pointer / last_used / Optimal next use ได้</span></label>
+      <label class="check"><input type="checkbox" data-check="p1-3"><span>สร้าง candidate ถัดไปด้วยเลขฐาน K ได้</span></label>
+      <label class="check"><input type="checkbox" data-check="p1-4"><span>อธิบาย budget, first match และความซับซ้อนได้</span></label>
+    </div>
+    <div class="panel check-group"><h3>คนที่ 2 · Menu + Display</h3>
+      <label class="check"><input type="checkbox" data-check="p2-1"><span>เล่า state และ mapping ของเมนูหลักได้</span></label>
+      <label class="check"><input type="checkbox" data-check="p2-2"><span>อธิบาย callback, struct copy และ malloc/free ได้</span></label>
+      <label class="check"><input type="checkbox" data-check="p2-3"><span>แยก decision ต่างจาก outcome ต่างได้</span></label>
+      <label class="check"><input type="checkbox" data-check="p2-4"><span>หยุดก่อนจบแล้วอ่าน Stats เฉพาะที่แสดงได้</span></label>
+    </div>
+    <div class="panel check-group"><h3>คนที่ 3 · Files + Tests</h3>
+      <label class="check"><input type="checkbox" data-check="p3-1"><span>อธิบาย parser, UTF-8 BOM, overflow และ input เดิมได้</span></label>
+      <label class="check"><input type="checkbox" data-check="p3-2"><span>ใช้ results, ชื่ออัตโนมัติ, index และ full path ได้</span></label>
+      <label class="check"><input type="checkbox" data-check="p3-3"><span>รัน test.bat และอธิบายหลักฐานแต่ละชุดได้</span></label>
+      <label class="check"><input type="checkbox" data-check="p3-4"><span>เตรียม input/frames/search settings ให้ทำซ้ำได้</span></label>
+    </div>
+  </div>
+  <button type="button" class="btn no-print" id="reset-ready">ล้างเช็กลิสต์ของเครื่องนี้</button>
+</section>
+<footer class="footer">
+  <p><strong>คู่มืออ้างอิงโค้ดจริงของ Memory Policy Lab เวอร์ชัน results</strong><br>ชื่อฟังก์ชันเป็นจุดเริ่มต้นในการค้นหาโค้ด เปิดไฟล์จาก src/ และ tests/ ตามรายการ คู่มือนี้เปิดด้วย browser ได้โดยไม่ต้องติดตั้งอะไร และไม่มีการส่งคำตอบออกจากเครื่อง</p>
+  <p>อ่านพื้นฐานเพิ่ม: <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/vm-paging.pdf" target="_blank" rel="noopener">OSTEP · Paging</a> และ <a href="https://pages.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys-policy.pdf" target="_blank" rel="noopener">OSTEP · Page Replacement Policies</a> (ลิงก์เพิ่มเติมต้องใช้อินเทอร์เน็ต)</p>
+</footer>
+<script>
+(() => {
+  'use strict';
+  const questions = [
+    {group:'shared',source:'แนวคิด OS / simulator.c',q:'เรียก page ใหม่ตอนยังมี frame ว่าง จะเกิดอะไร?',options:['Hit และไม่มี replacement','Fault แต่ไม่มี replacement','Fault และต้องเอา page เดิมออกเสมอ'],answer:1,why:'Page ยังไม่อยู่จึงเป็น fault แต่โหลดลงช่องว่างได้ ไม่ต้องเลือก victim นี่คือเหตุผลที่ faults กับ replacements ไม่เท่ากันเสมอ'},
+    {group:'shared',source:'src/simulator.h',q:'ทำไมใช้ EMPTY_PAGE = -1 แทนการใช้ 0?',options:['เพราะ page ต้องเริ่มที่ 1','เพราะ -1 เป็นหมายเลข page ของระบบ','เพราะ page 0 เป็น input ที่ถูกต้อง จึงต้องมีค่าช่องว่างแยก'],answer:2,why:'Input อนุญาตจำนวนเต็มไม่ติดลบ รวม 0 จึงใช้ -1 ซึ่งอยู่นอกช่วง input เป็น sentinel ของ frame ว่าง'},
+    {group:'shared',source:'src/display.c · print_stats()',q:'ประมวลผลครบ 5 references เกิด 4 faults มี fault rate เท่าไร?',options:['80%','20%','125%'],answer:0,why:'Fault rate = faults / references ที่ประมวลผล × 100 = 4/5 × 100 = 80% ส่วน hit rate เป็น 20%'},
+    {group:'shared',source:'src/display.c · compare_algorithms()',q:'จะเปรียบเทียบ FIFO กับ LRU อย่างยุติธรรม ต้องทำอะไร?',options:['ให้แต่ละวิธีเลือก input ที่ตัวเองชนะ','ให้วิธีหนึ่งเริ่มหลังอีกวิธีโหลด frame เต็มแล้ว','ใช้ input และจำนวน frames เดียวกัน เริ่มจาก frame ว่างทั้งคู่'],answer:2,why:'ตัวแปรควบคุมต้องเหมือนกัน หากเปลี่ยน input หรือสถานะเริ่มต้นด้วย จะไม่รู้ว่าผลต่างเกิดจาก policy หรือจากเงื่อนไขอื่น'},
+    {group:'shared',source:'ตัวอย่างร่วมกัน / compare_traces()',q:'1 2 1 3 1 ที่ 2 frames: FIFO/LRU เลือกเหยื่อต่างกันครั้งแรกและมี Hit/Fault ต่างกันครั้งแรกเมื่อไร?',options:['ทั้งสองอย่างต่างที่ step 3','Decision ต่างที่ step 4 แต่ Hit/Fault ต่างที่ step 5','Decision ต่างที่ step 5 แต่ Hit/Fault ต่างที่ step 4'],answer:1,why:'Step 4 FIFO เอา 1 ออก ส่วน LRU เอา 2 ออก แต่ทั้งคู่ยัง fault ที่ step 5 จึงเห็นว่า FIFO ต้องโหลด 1 ใหม่ ขณะที่ LRU hit'},
+    {group:'shared',source:'src/input.c · save_references()',q:'ไฟล์ .txt ที่บันทึกปัจจุบันเก็บอะไร?',options:['เฉพาะ reference string ต้องตั้ง frames ให้ตรงเมื่อนำมาใช้ซ้ำ','Reference string พร้อม frames และ search condition ทั้งหมด','เฉพาะจำนวน faults'],answer:0,why:'save_references เขียนหมายเลข page คั่นช่องว่าง ไม่เขียน metadata ทีมจึงต้องบันทึก frames และค่าการค้นหาในรายงานแยก'},
+    {group:'p1',source:'src/simulator.c · FIFO',q:'FIFO เกิด hit แล้วต้องเลื่อน fifo_next หรือไม่?',options:['ต้องเลื่อนทุก reference','ต้องเลื่อนเมื่อ page มีเลขมากกว่าเดิม','ไม่เลื่อน เพราะลำดับเวลาที่ page เข้าไม่ได้เปลี่ยน'],answer:2,why:'ในโค้ด fifo_next อัปเดตเฉพาะเส้นทาง fault ที่โหลด page หากเลื่อนเมื่อ hit จะผิดกฎ FIFO'},
+    {group:'p1',source:'src/simulator.c · last_used',q:'LRU ต้องอัปเดต last_used ตอนไหน?',options:['ทั้ง hit และ fault','เฉพาะตอน replacement','เฉพาะครั้งแรกที่ page ถูกโหลด'],answer:0,why:'ทุก access คือการใช้งาน page ล่าสุด โค้ดจึงอัปเดต last_used[slot] = i หลังจัดการทั้งสองกรณี'},
+    {group:'p1',source:'src/simulator.c · Optimal',q:'ถ้าหนึ่ง page ใน frames จะไม่ถูกใช้อีกเลย Optimal ควรทำอย่างไร?',options:['เก็บไว้ตลอดเพราะเคยใช้แล้ว','เลือกเป็น victim ได้ และถ้าหลายช่องไม่ถูกใช้อีก โค้ดนี้เลือก frame ต่ำสุด','เลือก page ที่จะถูกใช้ทันทีเป็น victim แทน'],answer:1,why:'Page ที่ไม่ใช้ต่อไม่มีประโยชน์ต่อ references ที่เหลือ โค้ดเก็บ next = count เป็น sentinel และใช้การเปรียบเทียบมากกว่าอย่างเคร่งครัด จึงคง frame แรกเมื่อเสมอ'},
+    {group:'p1',source:'src/search.c · search_candidate_count()',q:'ใช้ 3 page IDs และ reference length 5 มี candidates ทั้งหมดกี่ชุด?',options:['15','243','125'],answer:1,why:'แต่ละตำแหน่งเลือกได้ 3 ค่าและมี 5 ตำแหน่ง จึงเป็น 3^5 = 243 ไม่ใช่การบวกหรือคูณ 3 กับ 5'},
+    {group:'p1',source:'src/search.c · next_candidate()',q:'K=3 และ candidate ปัจจุบัน 0 0 2 ชุดถัดไปคืออะไร?',options:['0 0 3','0 1 2','0 1 0'],answer:2,why:'หลักขวาสุดเต็มแล้ว เพราะ page IDs คือ 0–2 จึงกลับเป็น 0 และทดไปหลักซ้าย เหมือนนับเลขฐาน 3'},
+    {group:'p1',source:'src/search.c · SearchStatus',q:'ตรวจเพียง 1 จาก 243 ชุดแล้วไม่พบ เพราะ limit=1 สรุปอะไรได้?',options:['ไม่พบในส่วนที่ตรวจ แต่ส่วนที่เหลืออาจมีคำตอบ','พิสูจน์ว่าไม่มี input ที่ตรงเงื่อนไขทุกความยาว','ทั้ง 243 ชุดถูกตรวจครบแล้ว'],answer:0,why:'สถานะคือ SEARCH_LIMIT_REACHED ไม่ใช่ SEARCH_EXHAUSTED ข้อสรุปต้องจำกัดอยู่ที่ candidates ที่ได้ตรวจจริง'},
+    {group:'p2',source:'src/search.c → simulate()',q:'เมื่อเรียก simulate โดย callback เป็น NULL หมายถึงอะไร?',options:['คำนวณ Stats ตามปกติ แต่ไม่ส่งแต่ละ Step ให้ display','เลือก Optimal อัตโนมัติ','ไม่เกิด page faults'],answer:0,why:'Callback เป็นช่องทางส่ง snapshot ไม่ใช่ตัวคำนวณ faults Engine คำนวณ state/Stats อยู่แล้ว Search จึงไม่ต้องพิมพ์ทุก candidate'},
+    {group:'p2',source:'src/display.c · capture_step()',q:'ทำไมเก็บ trace ด้วย trace->steps[index] = *step แทนเก็บ pointer step?',options:['เพราะ pointer ใน C ใช้ไม่ได้','เพราะ Step เป็นตัวแปรชั่วคราวของ engine ต้อง copy เพื่อใช้ภายหลัง','เพราะ assignment ทำให้ทุก frame เป็น 0'],answer:1,why:'หลัง callback จบไม่ควรใช้ pointer ไปยัง Step ชั่วคราว การ copy struct รวมสมาชิก frames[] ทำให้ snapshot อยู่ใน buffer ที่ display เป็นเจ้าของ'},
+    {group:'p2',source:'src/display.c · compare_traces()',q:'หยุดโหมดสองฝั่งหลังแถวแรกที่เป็น Fault ควรสรุปอย่างไร?',options:['ใช้ Stats ของ trace ครบทุกขั้นเพราะคำนวณไว้แล้ว','รายงาน 0 ขั้นเพราะผู้ใช้กด q','แสดง 1 ขั้น, 1 fault ต่อ algorithm และวิเคราะห์เฉพาะขั้นที่เห็น'],answer:2,why:'UI ใช้ shown และ count_step สะสมเฉพาะแถวที่แสดง แม้ engine คำนวณ trace ทั้งหมดไว้ก่อนแล้ว ตัวหาร fault rate ณ จุดนี้คือ 1'},
+    {group:'p2',source:'src/main.c · run_search()',q:'เมื่อ search พบ input โปรแกรมเปลี่ยน state อะไร?',options:['เปลี่ยน references และ frames ตามการค้นหา แต่ algorithm ที่เลือกไว้ยังเป็นตัวเดิม','เปลี่ยน algorithm เป็น LRU เสมอและล้าง input','ไม่เปลี่ยนอะไร ต้องพิมพ์ input ใหม่ทั้งหมด'],answer:0,why:'โค้ด assign *references และ *frames หลัง SEARCH_FOUND ส่วน Algorithm อยู่ใน main และไม่ได้ถูกส่งให้ run_search เปลี่ยน'},
+    {group:'p2',source:'src/simulator.c · return contract',q:'simulate() คืนค่า 1 หลัง callback สั่งหยุด หมายถึงอะไร?',options:['ประมวลผลครบ references เสมอ','Configuration ถูกต้อง แต่ run อาจหยุดก่อนครบได้','เกิด Hit ทุก step'],answer:1,why:'คืนค่าของ simulate ระบุ valid configuration ไม่ใช่ completion status ส่วนจำนวน hits+faults หรือ count ใช้บอกว่ารันถึงไหน'},
+    {group:'p2',source:'src/display.c · compare_traces()',q:'ถ้าจอง trace ของ FIFO สำเร็จ แต่ malloc สำหรับ LRU ล้มเหลว ต้องทำอย่างไร?',options:['ใช้ pointer ที่เป็น NULL ไปก่อน','ปล่อย buffer ของ FIFO ค้างไว้แล้วออก','free buffers ที่จองได้ แจ้ง error และไม่เข้าถึง trace'],answer:2,why:'ต้องตรวจทั้งสอง allocation ก่อนใช้งาน การ free(NULL) ทำได้ จึงคืนทั้งสองตัวได้อย่างปลอดภัยในทาง error'},
+    {group:'p3',source:'src/input.c · load_references()',q:'ทำไมโหลดไฟล์ผิดแล้ว input เดิมยังอยู่?',options:['เพราะโปรแกรมไม่เคยอ่านไฟล์จริง','เพราะอ่านลง candidate และ assign result หลังตรวจสำเร็จทั้งหมด','เพราะไฟล์ผิดจะเปลี่ยนเป็น page 0 ทุกตัว'],answer:1,why:'Parser เปลี่ยนข้อมูลผู้เรียกตอนท้ายเท่านั้น เมื่อพบ error จะคืนก่อน *result = candidate จึงไม่ทำลาย reference string เดิม'},
+    {group:'p3',source:'src/results.c · resolve_reference_path()',q:'พิมพ์ชื่อ alpha ในเมนูบันทึก โดยไม่มี slash หรือ colon จะไปที่ไหน?',options:['results/alpha.txt','โฟลเดอร์ build ชื่อ alpha.exe','โฟลเดอร์ Windows/System32'],answer:0,why:'ชื่อเปล่า resolve ภายใน results และเติม .txt หากยังไม่มี suffix นั้น ส่วน path ที่ระบุชัดด้วย slash/backslash/colon จะคงไว้'},
+    {group:'p3',source:'src/results.c · catalog_file()',q:'ไฟล์ชนิดไหนควรปรากฏในรายการที่เลือกโหลดได้?',options:['ทุกสิ่งที่ลงท้าย .txt รวม directory','ทุกไฟล์ในโฟลเดอร์แม้เป็น PDF','ไฟล์ปกติ .txt ที่ผ่าน load_references()'],answer:2,why:'เช็กชนิดไฟล์และนามสกุล แล้วใช้ parser ตรวจจริงก่อนเพิ่มเข้า catalog จึงไม่เสนอไฟล์ที่รู้ว่าโหลดผิด'},
+    {group:'p3',source:'src/results.c · next_result_path()',q:'กด Enter เพื่อบันทึก ขณะที่ result_001.txt มีอยู่แล้ว โปรแกรมเลือกอะไร?',options:['เขียนทับ result_001.txt เสมอ','ลบไฟล์เดิมก่อนบันทึก','หาเลขแรกที่ยังไม่ใช้ เช่น result_002.txt'],answer:2,why:'ฟังก์ชันไล่เลขและใช้ stat ตรวจว่ามี path นั้นอยู่หรือไม่ ชื่ออัตโนมัติจึงไม่ทับไฟล์เดิม แต่ชื่อที่ผู้ใช้ระบุเองอาจเขียนทับตามข้อความในเมนู'},
+    {group:'p3',source:'src/results.c · initialize_results()',q:'บน Windows เปิด build/memory_policy_lab.exe จาก working directory อื่น results อยู่ที่ไหน?',options:['เปลี่ยนตาม cwd เสมอ','ข้าง build ของโปรเจกต์ เพราะหาตำแหน่ง executable','ใน C:/Windows เสมอ'],answer:1,why:'ใช้ GetModuleFileNameA หา executable แล้วหาก parent ชื่อ build ให้ถอยไป root project ต่างจาก Unix branch ที่ใช้ getcwd'},
+    {group:'p3',source:'src/input.c · overflow check',q:'ควรตรวจตัวเลขล้นตอนไหนเมื่ออ่าน digit เพิ่ม?',options:['ก่อนคูณ 10 และบวก digit โดยเทียบ (INT_MAX - digit) / 10','หลัง overflow ไปแล้วค่อยตรวจว่าเลขติดลบ','ไม่ต้องตรวจเพราะ int เก็บได้ไม่จำกัด'],answer:0,why:'การคำนวณล้น signed int ก่อนตรวจเป็นปัญหาได้ โค้ดจึงตรวจขอบเขตก่อนดำเนินการ ไม่รอให้ค่าล้นแล้วค่อยแก้'}
+  ];
+  const labels = {shared:'พื้นฐานร่วมกัน',p1:'คนที่ 1 · Engine + Search',p2:'คนที่ 2 · Menu + Display',p3:'คนที่ 3 · Files + Tests'};
+  const quizRoot = document.getElementById('quiz-list');
+  const answers = new Map();
+  const graded = new Map();
+  let activeFilter = 'all';
+  function element(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  function updateScore() {
+    const correct = Array.from(graded.values()).filter(Boolean).length;
+    document.getElementById('quiz-score').textContent = `ตอบแล้ว ${answers.size} / ${questions.length} ข้อ · ตรวจแล้ว ${graded.size} ข้อ · ถูก ${correct} ข้อ`;
+  }
+  function gradeQuestion(index) {
+    if (!answers.has(index)) return;
+    const correct = answers.get(index) === questions[index].answer;
+    graded.set(index, correct);
+    const feedback = document.getElementById(`feedback-${index}`);
+    feedback.hidden = false;
+    feedback.className = 'feedback' + (correct ? '' : ' wrong');
+    feedback.textContent = correct ? 'ถูกต้อง — อ่านเหตุผลในเฉลยเพื่ออธิบายให้เพื่อนได้' : 'ยังไม่ถูก — เปิดเฉลย อ่านเหตุผล แล้วลองตอบใหม่';
+    updateScore();
+  }
+  questions.forEach((q, index) => {
+    const card = element('article','quiz-card');
+    card.dataset.group = q.group;
+    card.id = `question-${index + 1}`;
+    const meta = element('div','quiz-meta');
+    meta.append(element('span','',`ข้อ ${String(index + 1).padStart(2,'0')}`),element('span','',labels[q.group]));
+    const fieldset = element('fieldset');
+    fieldset.append(element('legend','',q.q));
+    const button = element('button','btn','ตรวจคำตอบ');
+    button.type = 'button';
+    button.disabled = true;
+    button.id = `grade-${index}`;
+    q.options.forEach((option, optionIndex) => {
+      const label = element('label','option');
+      const input = element('input');
+      input.type = 'radio';
+      input.name = `q-${index}`;
+      input.value = String(optionIndex);
+      input.addEventListener('change', () => {
+        answers.set(index, optionIndex);
+        graded.delete(index);
+        button.disabled = false;
+        document.getElementById(`feedback-${index}`).hidden = true;
+        updateScore();
+      });
+      label.append(input, element('span','',option));
+      fieldset.append(label);
+    });
+    button.addEventListener('click', () => gradeQuestion(index));
+    const feedback = element('div','feedback');
+    feedback.id = `feedback-${index}`;
+    feedback.setAttribute('role','status');
+    feedback.hidden = true;
+    const details = element('details');
+    details.append(element('summary','','เฉลยและเหตุผล'));
+    const answer = element('div','answer');
+    answer.append(element('p','',`คำตอบ: ${q.options[q.answer]}`),element('p','',q.why),element('p','path',`ดูโค้ด: ${q.source}`));
+    details.append(answer);
+    card.append(meta,fieldset,button,feedback,details);
+    quizRoot.append(card);
+  });
+  function applyFilter(filter) {
+    activeFilter = filter;
+    document.querySelectorAll('[data-quiz-filter]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.quizFilter === filter)));
+    document.querySelectorAll('.quiz-card').forEach(card => { card.hidden = filter !== 'all' && card.dataset.group !== filter; });
+  }
+  document.querySelectorAll('[data-quiz-filter]').forEach(button => button.addEventListener('click', () => applyFilter(button.dataset.quizFilter)));
+  document.getElementById('grade-visible').addEventListener('click', () => {
+    questions.forEach((q,index) => { if (activeFilter === 'all' || q.group === activeFilter) gradeQuestion(index); });
+  });
+  document.getElementById('reset-quiz').addEventListener('click', () => {
+    answers.clear(); graded.clear();
+    quizRoot.querySelectorAll('input').forEach(input => { input.checked = false; });
+    quizRoot.querySelectorAll('.feedback').forEach(node => { node.hidden = true; });
+    quizRoot.querySelectorAll('.btn').forEach(button => { button.disabled = true; });
+    quizRoot.querySelectorAll('details').forEach(details => { details.open = false; });
+    updateScore();
+  });
+  const checkboxes = Array.from(document.querySelectorAll('[data-check]'));
+  const storageKey = 'memory-policy-team-readiness-v1';
+  let savedChecks = {};
+  try { savedChecks = JSON.parse(localStorage.getItem(storageKey) || '{}') || {}; } catch (_) {}
+  checkboxes.forEach(input => { input.checked = savedChecks[input.dataset.check] === true; });
+  function updateReadiness(persist = false) {
+    const checked = checkboxes.filter(input => input.checked).length;
+    document.getElementById('ready-count').textContent = `พร้อม ${checked} / ${checkboxes.length} รายการ`;
+    document.getElementById('ready-fill').style.width = `${100 * checked / checkboxes.length}%`;
+    document.getElementById('ready-progress').setAttribute('aria-valuenow',String(checked));
+    if (persist) {
+      const state = {};
+      checkboxes.forEach(input => { state[input.dataset.check] = input.checked; });
+      try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch (_) {}
+    }
+  }
+  checkboxes.forEach(input => input.addEventListener('change', () => updateReadiness(true)));
+  document.getElementById('reset-ready').addEventListener('click', () => {
+    checkboxes.forEach(input => { input.checked = false; }); updateReadiness(true);
+  });
+  updateReadiness();
+  document.getElementById('print-top').addEventListener('click', () => window.print());
+  document.getElementById('print-side').addEventListener('click', () => window.print());
+  let detailStates = [];
+  window.addEventListener('beforeprint', () => {
+    detailStates = Array.from(document.querySelectorAll('details')).map(node => ({node,open:node.open}));
+    detailStates.forEach(({node}) => { node.open = true; });
+  });
+  window.addEventListener('afterprint', () => detailStates.forEach(({node,open}) => { node.open = open; }));
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        document.querySelectorAll('.nav a').forEach(a => {
+          const active = a.getAttribute('href') === `#${entry.target.id}`;
+          a.classList.toggle('current',active);
+          if (active) a.setAttribute('aria-current','location'); else a.removeAttribute('aria-current');
+        });
+      });
+    }, {rootMargin:'-8% 0px -70% 0px'});
+    document.querySelectorAll('main section[id]').forEach(section => observer.observe(section));
+  }
+})();
+</script>
+</main>
+</div>
+</body>
+</html>
