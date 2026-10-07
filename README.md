@@ -9,7 +9,7 @@
 Windows ต้องมี GCC ใน PATH ตรวจด้วย `gcc --version` หรือดับเบิลคลิก `run.bat` ในโฟลเดอร์นี้เพื่อ compile แล้วรัน
 
 ```powershell
-cd "C:\Users\-\Page-Replacement-Simulator-C-"
+cd "Page-Replacement-Simulator-C-"
 .\build.bat
 .\build\memory_policy_lab.exe
 ```
@@ -21,8 +21,6 @@ cd "C:\Users\-\Page-Replacement-Simulator-C-"
 ```
 
 ถ้าแก้โค้ด ต้อง build ใหม่ `run.bat` จะ build ทุกครั้งและหยุดรอหลังออกจากโปรแกรม Executable ของเวอร์ชันนี้ชื่อ `memory_policy_lab.exe` และ `run.bat` จะเปิดตัวนี้โดยอัตโนมัติ
-
-Linux/macOS ที่มี compiler และ Make ใช้ `make`, `./build/memory_policy_lab`, `make test` ได้ตาม Makefile แต่ยังไม่ได้ทดสอบบนระบบเหล่านั้น บน Windows ใช้สคริปต์ `.bat`
 
 ## ฟีเจอร์และเมนู
 
