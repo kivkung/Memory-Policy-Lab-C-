@@ -1,7 +1,11 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-call build.bat
-if errorlevel 1 exit /b 1
-build\memory_policy_lab.exe %*
-pause
+if not exist memory_policy_lab.exe (
+  call build.bat
+  if errorlevel 1 (
+    pause
+    exit /b 1
+  )
+)
+start "" "%~dp0memory_policy_lab.exe"

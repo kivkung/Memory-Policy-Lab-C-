@@ -2,6 +2,11 @@
 #define INPUT_H
 
 #include "simulator.h"
+#include <stdio.h>
+
+/* Takes ownership of an already-open file and closes it on every path. */
+int load_references_stream(FILE *file, ReferenceString *result,
+                           char *error, size_t error_size);
 
 /* Transactional: leave result unchanged when loading fails. */
 int load_references(const char *path, ReferenceString *result,

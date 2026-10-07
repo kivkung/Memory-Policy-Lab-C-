@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 Set-Location (Split-Path $PSScriptRoot -Parent)
 
-& .\build.bat
+& .\build-cli.bat
 if ($LASTEXITCODE -ne 0) { throw 'Simulator build failed.' }
 
 function Invoke-Lab([string[]] $InputLines, [string] $ReferenceFile = '') {

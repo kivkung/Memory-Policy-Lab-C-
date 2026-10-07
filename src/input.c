@@ -76,7 +76,12 @@ int read_line(char *buffer, size_t capacity)
 int load_references(const char *path, ReferenceString *result,
                     char *error, size_t error_size)
 {
-    FILE *file = fopen(path, "rb");
+    return load_references_stream(fopen(path, "rb"), result, error, error_size);
+}
+
+int load_references_stream(FILE *file, ReferenceString *result,
+                           char *error, size_t error_size)
+{
     ReferenceString candidate = {{0}, 0};
     unsigned char prefix[3];
     size_t bytes;
